@@ -7,7 +7,7 @@ define(function(require) {
         MockChangelogModel = mock(require('plugin/changelog/model/changelog-model')),
         MockStorage = mock(require('core/model/storage'));
 
-    describe.only('InitChangelogController', function() {
+    describe('InitChangelogController', function() {
 
         var START_TIME = 1000,
             initChangelogController,
@@ -23,7 +23,7 @@ define(function(require) {
             initChangelogController.storage = mockStorage;
             initChangelogController.changelogModel = MockChangelogModel.create();
             initChangelogController.changelogDataProvider = MockChangelogDataProvider.create();
-            initChangelogController.changelogParser  =MockChangelogParser.create();
+            initChangelogController.changelogParser = MockChangelogParser.create();
         });
 
         afterEach(function() {
