@@ -8,8 +8,14 @@ define(function(require) {
 
         date: null,
 
-        moreLink: null
-        
+        moreLink: null,
+
+        $create: function(title, date, more) {
+            this.title = title;
+            this.date = date;
+            this.moreLink = more;
+        }
+
     });
     
     return ChangelogEntry;

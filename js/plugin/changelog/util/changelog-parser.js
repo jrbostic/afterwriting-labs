@@ -14,13 +14,16 @@ define(function(require) {
          * @returns {*}
          */
         parse: function(jsonChangelog) {
-            var entries = [];
+            var entries = [], entry;
 
             if (jsonChangelog && jsonChangelog.length) {
                jsonChangelog.forEach(function(jsonEntry) {
                    if (!jsonEntry.title || !jsonEntry.date) {
                        throw new Error('InvalidEntry');
                    }
+                   
+                   entry = ChangelogEntry.create();
+                   entries.push(entry);
                });
             }
 
