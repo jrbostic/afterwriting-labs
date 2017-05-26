@@ -2,7 +2,7 @@ define(function(require) {
     
     var Protoplast = require('protoplast');
     
-    var ChangeEntry = Protoplast.Model.extend({
+    var ChangelogEntry = Protoplast.Model.extend({
 
         title: null,
 
@@ -12,5 +12,5 @@ define(function(require) {
         
     });
     
-    return ChangeEntry;
+    return ChangelogEntry;
 });
