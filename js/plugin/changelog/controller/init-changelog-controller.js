@@ -1,15 +1,31 @@
 define(function(require) {
 
-    var Protoplast = require('protoplast');
+    var Protoplast = require('protoplast'),
+        ChangelogDataProvider = require('plugin/changelog/util/changelog-data-provider'),
+        ChangelogParser = require('plugin/changelog/util/changelog-parser'),
+        ChangelogModel = require('plugin/changelog/model/changelog-model');
 
     var InitChangelogController = Protoplast.Object.extend({
 
         storage: {
             inject: 'storage'
         },
+        
+        changelogModel: {
+            inject: ChangelogModel
+        },
+        
+        changelogDataProvider: {
+            inject: ChangelogDataProvider
+        },
+        
+        changelogParser: {
+            inject: ChangelogParser
+        },
 
         init: function() {
             var lastVisit = this.getLastVisitDate();
+            this._loadEntries();
 
             if (lastVisit) {
                 // TODO: get changes from last visit and store them to model (+)
@@ -32,6 +48,12 @@ define(function(require) {
             }
 
             return lastVisitDate;
+        },
+        
+        _loadEntries: function() {
+            var jsonEntries = this.changelogDataProvider.getJsonEntries();
+            var entries = this.changelogParser.parse(jsonEntries);
+            this.changelogModel.changes = entries;
         },
 
         /**

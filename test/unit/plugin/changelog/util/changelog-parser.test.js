@@ -4,7 +4,7 @@ define(function(require) {
         ChangelogEntry = require('plugin/changelog/model/changelog-entry'),
         Protoplast = require('protoplast');
     
-    describe.only('ChangelogParser', function() {
+    describe('ChangelogParser', function() {
         
         var parser;
         
