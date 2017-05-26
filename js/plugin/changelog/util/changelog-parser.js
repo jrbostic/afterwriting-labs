@@ -1,7 +1,8 @@
 define(function(require) {
     
-    var Protoplast = require('protoplast');
-    
+    var Protoplast = require('protoplast'),
+        ChangelogEntry = require('plugin/changelog/model/changelog-entry');
+
     var ChangelogParser = Protoplast.extend({
 
         /**
@@ -13,7 +14,17 @@ define(function(require) {
          * @returns {*}
          */
         parse: function(jsonChangelog) {
-            return Protoplast.Collection.create();
+            var entries = [];
+
+            if (jsonChangelog && jsonChangelog.length) {
+               jsonChangelog.forEach(function(jsonEntry) {
+                   if (!jsonEntry.title || !jsonEntry.date) {
+                       throw new Error('InvalidEntry');
+                   }
+               });
+            }
+
+            return Protoplast.Collection.create(entries);
         }
 
     });
