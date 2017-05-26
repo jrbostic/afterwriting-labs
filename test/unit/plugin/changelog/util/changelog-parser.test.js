@@ -43,11 +43,11 @@ define(function(require) {
             ]);
 
             // THEN
-            chai.assert.isEqual(data.get(0).title, "foo");
-            chai.assert.isEqual(data.get(1).title, "bar");
+            chai.assert.equal(data.get(0).title, "foo");
+            chai.assert.equal(data.get(1).title, "bar");
 
-            chai.assert.isEqual(data.get(0).date, new Date(2000, 0, 1));
-            chai.assert.isEqual(data.get(1).date, new Date(2000, 0, 2));
+            chai.assert.equal(data.get(0).date.getTime(), new Date(2000, 0, 1).getTime());
+            chai.assert.equal(data.get(1).date.getTime(), new Date(2000, 0, 2).getTime());
         });
 
         it('WHEN no date and/or title is passed THEN parser throws an exception', function() {
@@ -71,9 +71,9 @@ define(function(require) {
             ]);
 
             // THEN
-            chai.assert.isEqual(data.get(0).moreLink, "http://more.more");
-            chai.assert.isEqual(data.get(1).moreLink, null);
-            chai.assert.isEqual(data.get(2).moreLink, null);
+            chai.assert.equal(data.get(0).moreLink, "http://more.more");
+            chai.assert.equal(data.get(1).moreLink, null);
+            chai.assert.equal(data.get(2).moreLink, null);
 
         });
 

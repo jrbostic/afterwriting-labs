@@ -14,20 +14,35 @@ define(function(require) {
          * @returns {*}
          */
         parse: function(jsonChangelog) {
-            var entries = [], entry;
+            var entries = [], entry, date;
 
             if (jsonChangelog && jsonChangelog.length) {
                jsonChangelog.forEach(function(jsonEntry) {
                    if (!jsonEntry.title || !jsonEntry.date) {
                        throw new Error('InvalidEntry');
                    }
-                   
-                   entry = ChangelogEntry.create();
+
+                   date = this._stringToDate(jsonEntry.date);
+                   entry = ChangelogEntry.create(jsonEntry.title, date, jsonEntry.more);
                    entries.push(entry);
-               });
+               }, this);
             }
 
             return Protoplast.Collection.create(entries);
+        },
+
+        /**
+         * Convert DD/MM/YYYY to Date
+         * @private
+         * @return {Date}
+         */
+        _stringToDate: function(date) {
+            var dateVal = date.split('/');
+            return new Date(
+                parseInt(dateVal[2]),
+                parseInt(dateVal[1]) - 1,
+                parseInt(dateVal[0])
+            )
         }
 
     });
