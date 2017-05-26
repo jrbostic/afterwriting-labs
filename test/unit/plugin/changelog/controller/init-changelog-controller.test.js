@@ -52,6 +52,13 @@ define(function(require) {
             // THEN
             chai.assert.strictEqual(date.getTime(), 99);
         });
+        
+        it('WHEN the changelog is initialised THEN latest changes are saved to model', function() {
+            // WHEN
+            initChangelogController.init();
+            
+            // THEN
+        });
 
     });
 
