@@ -4,6 +4,7 @@
         paths: {
             samples: '../samples/compiled',
             templates: '../templates',
+            data: '../data',
             test_screenplays: '../test/data/test_screenplays',
             test: '../test',
             jquery: 'libs/jquery-1.11.1.min',
