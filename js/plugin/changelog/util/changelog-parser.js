@@ -6,7 +6,7 @@ define(function(require) {
     var ChangelogParser = Protoplast.extend({
 
         /**
-         * Convert Changelog saved in json into a collection of ChangelogEntry object
+         * Convert Changelog saved in json into an array of ChangelogEntry object
          * @param {Object[]} jsonChangelog
          * @param {String} jsonChangelog.title
          * @param {String} jsonChangelog.date  date saved as DD/MM/YYYY
@@ -28,7 +28,7 @@ define(function(require) {
                }, this);
             }
 
-            return Protoplast.Collection.create(entries);
+            return entries;
         },
 
         /**

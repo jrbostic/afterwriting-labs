@@ -12,16 +12,15 @@ define(function(require) {
             parser = ChangelogParser.create();
         });
         
-        it('WHEN null object is passed THEN empty collection is returned', function() {
+        it('WHEN null object is passed THEN empty array is returned', function() {
             // WHEN
             var data = parser.parse(null);
 
             // THEN
-            chai.assert.isTrue(Protoplast.Collection.isPrototypeOf(data));
             chai.assert.lengthOf(data, 0);
         });
 
-        it('WHEN 2 entries are THEN collection with 2 ChangelogEntry objects is returned', function() {
+        it('WHEN 2 entries are THEN array with 2 ChangelogEntry objects is returned', function() {
             // WHEN
             var data = parser.parse([
                 {title: 'foo', date: '01/01/2000'},
@@ -29,10 +28,9 @@ define(function(require) {
             ]);
 
             // THEN
-            chai.assert.isTrue(Protoplast.Collection.isPrototypeOf(data));
             chai.assert.lengthOf(data, 2);
-            chai.assert.isTrue(ChangelogEntry.isPrototypeOf(data.get(0)));
-            chai.assert.isTrue(ChangelogEntry.isPrototypeOf(data.get(1)));
+            chai.assert.isTrue(ChangelogEntry.isPrototypeOf(data[0]));
+            chai.assert.isTrue(ChangelogEntry.isPrototypeOf(data[1]));
         });
 
         it('WHEN date is as DD/MM/YY with the title THEN date is saved as Date object and title as it is', function() {
@@ -43,11 +41,11 @@ define(function(require) {
             ]);
 
             // THEN
-            chai.assert.equal(data.get(0).title, "foo");
-            chai.assert.equal(data.get(1).title, "bar");
+            chai.assert.equal(data[0].title, "foo");
+            chai.assert.equal(data[1].title, "bar");
 
-            chai.assert.equal(data.get(0).date.getTime(), new Date(2000, 0, 1).getTime());
-            chai.assert.equal(data.get(1).date.getTime(), new Date(2000, 0, 2).getTime());
+            chai.assert.equal(data[0].date.getTime(), new Date(2000, 0, 1).getTime());
+            chai.assert.equal(data[1].date.getTime(), new Date(2000, 0, 2).getTime());
         });
 
         it('WHEN no date and/or title is passed THEN parser throws an exception', function() {
@@ -71,9 +69,9 @@ define(function(require) {
             ]);
 
             // THEN
-            chai.assert.equal(data.get(0).moreLink, "http://more.more");
-            chai.assert.equal(data.get(1).moreLink, null);
-            chai.assert.equal(data.get(2).moreLink, null);
+            chai.assert.equal(data[0].moreLink, "http://more.more");
+            chai.assert.equal(data[1].moreLink, null);
+            chai.assert.equal(data[2].moreLink, null);
 
         });
 

@@ -71,7 +71,7 @@ define(function(require) {
             
             // THEN
             sinon.assert.calledWithExactly(initChangelogController.changelogParser.parse, jsonEntries);
-            chai.assert.strictEqual(initChangelogController.changelogModel.changes, changeLogEntries);
+            sinon.assert.calledWithExactly(initChangelogController.changelogModel.addEntries, changeLogEntries);
         });
 
     });

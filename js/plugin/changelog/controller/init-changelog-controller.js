@@ -24,6 +24,15 @@ define(function(require) {
         },
 
         init: function() {
+            Protoplast.utils.bind(this.changelogModel, 'changesSinceLastVisit', function() {
+                if (this.changelogModel.changesSinceLastVisit.length === 0) {
+                    console.log('No entries');
+                }
+                this.changelogModel.changesSinceLastVisit.forEach(function(entry) {
+                    console.log(entry.date, entry.title);
+                });
+            }.bind(this));
+
             var lastVisit = this.getLastVisitDate();
             this._loadEntries();
 
@@ -52,8 +61,8 @@ define(function(require) {
         
         _loadEntries: function() {
             var jsonEntries = this.changelogDataProvider.getJsonEntries();
-            var entries = this.changelogParser.parse(jsonEntries);
-            this.changelogModel.changes = entries;
+            var entriesArray = this.changelogParser.parse(jsonEntries);
+            this.changelogModel.changes.addAll(entriesArray);
         },
 
         /**
@@ -61,7 +70,9 @@ define(function(require) {
          * @private
          */
         _updateLastVisit: function() {
-            this.storage.setItem('last-visit', new Date().getTime());
+            var lastVisitDate = new Date();
+            this.storage.setItem('last-visit', lastVisitDate.getTime());
+            this.changelogModel.lastVisit = lastVisitDate;
         }
 
     });
