@@ -23,24 +23,12 @@ define(function(require) {
             inject: ChangelogParser
         },
 
-        init: function() {
-            Protoplast.utils.bind(this.changelogModel, 'changesSinceLastVisit', function() {
-                if (this.changelogModel.changesSinceLastVisit.length === 0) {
-                    console.log('No entries');
-                }
-                this.changelogModel.changesSinceLastVisit.forEach(function(entry) {
-                    console.log(entry.date, entry.title);
-                });
-            }.bind(this));
-
-            var lastVisit = this.getLastVisitDate();
-            this._loadEntries();
-
-            if (lastVisit) {
-                // TODO: get changes from last visit and store them to model (+)
+        load: {
+            sub: 'app/init',
+            value: function() {
+                this._loadEntries();
+                this._updateLastVisit();
             }
-
-            this._updateLastVisit();
         },
 
         /**
