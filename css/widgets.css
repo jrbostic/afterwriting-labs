@@ -302,3 +302,7 @@ sub {
     color: #333333;
     font-weight: bold;
 }
+
+.changelog-item__info {
+    font-weight: bold;
+}

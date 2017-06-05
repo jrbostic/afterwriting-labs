@@ -1,12 +1,21 @@
 define(function(require) {
     
     var Protoplast = require('protoplast'),
-        BaseComponent = require('core/view/base-component');
+        BaseComponent = require('core/view/base-component'),
+        helper = require('utils/helper');
     
     return BaseComponent.extend({
     
-        tag: 'p',
-        
+        html: '<p><span data-prop="$info" class="changelog-item__info"></span><span data-prop="$date" class="changelog-item__date"></span><span data-prop="$linkPrefix"></span><a data-prop="$link" style="display:none">more...</a></p>',
+
+        $date: null,
+
+        $info: null,
+
+        $linkPrefix: null,
+
+        $link: null,
+
         item: null,
         
         addBindings: function() {
@@ -14,7 +23,13 @@ define(function(require) {
         },
         
         _renderItem: function() {
-            this.root.innerText = this.item.title + ' ' + this.item.date + ' ' + this.item.moreLink;
+            this.$info.text(this.item.title);
+            this.$date.text(' | ' + helper.format_date(this.item.date, {descriptive: true}));
+            if (this.item.moreLink) {
+                this.$linkPrefix.text(' | ');
+                this.$link.css('display', 'inline');
+                this.$link.attr('href', this.item.moreLink);
+            }
         }
         
     });
