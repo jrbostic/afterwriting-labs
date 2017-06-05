@@ -1,7 +1,8 @@
 define(function(require) {
 
     var Protoplast = require('protoplast'),
-        ThemeModel = require('theme/aw-bubble/model/theme-model');
+        ThemeModel = require('theme/aw-bubble/model/theme-model'),
+        Dialog = require('theme/aw-bubble/model/dialog');
     
     var ThemeController = Protoplast.Object.extend({
         
@@ -67,6 +68,19 @@ define(function(require) {
         moveTooltip: function(x, y) {
             this.themeModel.tooltip.x = x;
             this.themeModel.tooltip.y = y;
+        },
+        
+        showDialog: function(content, buttons, callback) {
+            this.themeModel.dialog = Dialog.create(content, buttons, callback);
+        },
+        
+        commitDialog: function(buttonLabel) {
+            var data = this.themeModel.dialog.getButtonByLabel(buttonLabel);
+            this.themeModel.dialog.callback(data.value);
+        },
+        
+        closeDialog: function() {
+            this.themeModel.dialog = null;
         }
 
     });

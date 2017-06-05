@@ -265,3 +265,40 @@ sub {
 .night-mode svg text {
     fill: #7f7f7f;
 }
+
+.dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    max-height: 200px;
+    border: 1px solid gray;
+    font-size: 0.8em;
+    border-radius: 7px;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    padding: 5px;
+    background: white;
+    box-shadow: 3px 3px 10px #000000;
+}
+
+.dialog__button_bar {
+    border-top: 1px solid #eeeeee;
+    text-align: right;
+}
+
+.dialog__button_bar button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #aaaaaa;
+    font-weight: bold;
+}
+
+.dialog__button_bar button:hover {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333333;
+    font-weight: bold;
+}

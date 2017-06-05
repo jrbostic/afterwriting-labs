@@ -17,7 +17,9 @@ define(function(require) {
         },
 
         init: function(Config) {
-            try {
+           // TODO: Must be done only when acceptance tests are run (+++++)
+           // Otherwise it makes harder to debug bootstrapping errors
+           try {
                 this._bootstrap(Config);
             }
             catch (e) {

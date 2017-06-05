@@ -31,6 +31,8 @@ define(function(require) {
         
         tooltip: null,
         
+        dialog: null,
+        
         backgroundImageVisible: {
             computed: ['showBackgroundImage', 'small'],
             value: function() {

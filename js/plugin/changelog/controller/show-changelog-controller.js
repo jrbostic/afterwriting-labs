@@ -24,10 +24,12 @@ define(function(require) {
             if (this.changelogModel.changesSinceLastVisit.length !== 0) {
                 var changelogList = ChangelogList.create();
                 changelogList.items = this.changelogModel.changesSinceLastVisit;
-                changelogList.addBindings();
-                $.prompt(changelogList.root.innerHTML, {
-                    buttons: {'OK': true}
-                });
+
+                this.themeController.showDialog(changelogList, [
+                    {label: 'OK, got it!', value: true}
+                ], function() {
+                    this.themeController.closeDialog();
+                }.bind(this));
             }
         }
 

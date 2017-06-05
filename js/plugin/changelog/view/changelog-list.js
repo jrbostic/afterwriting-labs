@@ -6,7 +6,7 @@ define(function(require) {
     
     return BaseComponent.extend({
 
-        html: '<div>hello</div>',
+        html: '<div></div>',
 
         items: null,
 

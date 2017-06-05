@@ -6,6 +6,7 @@ define(function(require) {
         Logo = require('theme/aw-bubble/view/logo'),
         Footer = require('theme/aw-bubble/view/footer'),
         Content = require('theme/aw-bubble/view/content'),
+        Dialog = require('theme/aw-bubble/view/dialog'),
         BubbleMenu = require('theme/aw-bubble/view/menu/bubble-menu');
 
     var Main = Protoplast.Component.extend({
@@ -22,6 +23,7 @@ define(function(require) {
             '<div class="menu"><div data-comp="mainMenu"></div></div>' +
             '<div data-comp="footer"></div>' +
             '<div data-comp="content"></div>' +
+            '<div data-comp="dialog"></div>' +
             '</main>',
 
         logo: {
@@ -38,6 +40,10 @@ define(function(require) {
 
         content: {
             component: Content
+        },
+        
+        dialog: {
+            component: Dialog
         },
     
         $backgroundClick: null,
