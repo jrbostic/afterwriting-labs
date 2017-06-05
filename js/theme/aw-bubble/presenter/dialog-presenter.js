@@ -18,10 +18,15 @@ define(function(require) {
 
             Protoplast.utils.bindProperty(this.themeModel, 'dialog', this.view, 'dialog');
             this.view.on('buttonClicked', this._handleButtonClicked);
+            this.view.on('closeClicked', this._handleCloseClicked);
         },
         
         _handleButtonClicked: function(buttonLabel) {
             this.themeController.commitDialog(buttonLabel)
+        },
+
+        _handleCloseClicked: function() {
+            this.themeController.closeDialog();
         }
         
     });

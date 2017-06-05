@@ -4,6 +4,8 @@ define(function(require) {
     
     var Dialog = Protoplast.extend({
         
+        title: null,
+        
         /**
          * @type {Protoplast.Component}
          */
@@ -19,7 +21,8 @@ define(function(require) {
          */
         callback: null,
         
-        $create: function(content, buttons, callback) {
+        $create: function(title, content, buttons, callback) {
+            this.title = title;
             this.content = content;
             this.buttons = Protoplast.Collection.create(buttons);
             this.callback = callback;

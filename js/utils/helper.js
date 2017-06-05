@@ -33,7 +33,7 @@ define('utils/helper', function(require) {
     };
 
     var date_formatter = d3.time.format("%Y-%m-%d %H:%M");
-    var date_formatter_desc = d3.time.format("%e %b");
+    var date_formatter_desc = d3.time.format("%e/%b");
     module.format_date = function(date, opts) {
         if (opts && opts.descriptive) {
             return date_formatter_desc(date);

@@ -70,8 +70,8 @@ define(function(require) {
             this.themeModel.tooltip.y = y;
         },
         
-        showDialog: function(content, buttons, callback) {
-            this.themeModel.dialog = Dialog.create(content, buttons, callback);
+        showDialog: function(title, content, buttons, callback) {
+            this.themeModel.dialog = Dialog.create(title, content, buttons, callback);
         },
         
         commitDialog: function(buttonLabel) {

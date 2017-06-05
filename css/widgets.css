@@ -268,18 +268,48 @@ sub {
 
 .dialog {
     position: fixed;
+    overflow: hidden;
     top: 50%;
     left: 50%;
-    width: 300px;
-    max-height: 200px;
+    width: 400px;
+    max-height: 300px;
     border: 1px solid gray;
     font-size: 0.8em;
     border-radius: 7px;
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
-    padding: 5px;
+    padding: 8px;
     background: white;
     box-shadow: 3px 3px 10px #000000;
+}
+
+.dialog__content_wrapper {
+    max-height: 200px;
+    padding: 3px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.dialog__close {
+    position: fixed;
+    top: 0;
+    right: 10px;
+    padding: 0;
+    font-family: monospace;
+    font-weight: bold;
+    cursor: pointer;
+    color: #777777;
+}
+
+.dialog__close::hover {
+    font-family: monospace;
+    color: #111111;
+}
+
+.dialog__title {
+    font-size: 1em;
+    font-style: italic;
+    padding: 5px;
 }
 
 .dialog__button_bar {
@@ -295,6 +325,13 @@ sub {
     font-weight: bold;
 }
 
+.changelog-item__bullet {
+    font-size: 2em;
+    position: relative;
+    top: 0.5em;
+    color: #777777;
+}
+
 .dialog__button_bar button:hover {
     background: none;
     border: none;
@@ -304,5 +341,15 @@ sub {
 }
 
 .changelog-item__info {
+    padding-left: 5px;
     font-weight: bold;
+}
+
+.changelog-item__link {
+    padding-left: 5px;
+}
+
+.changelog-item__date {
+    padding-left: 5px;
+    color: #aaaaaa;
 }

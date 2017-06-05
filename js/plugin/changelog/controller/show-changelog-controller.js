@@ -25,8 +25,8 @@ define(function(require) {
                 var changelogList = ChangelogList.create();
                 changelogList.items = this.changelogModel.changesSinceLastVisit;
 
-                this.themeController.showDialog(changelogList, [
-                    {label: 'OK, got it!', value: true}
+                this.themeController.showDialog("Check out new stuff:", changelogList, [
+                    {label: 'OK, show me the goodies!', value: true}
                 ], function() {
                     this.themeController.closeDialog();
                 }.bind(this));

@@ -10,9 +10,17 @@ define(function(require) {
             presenter: DialogPresenter
         },
         
-        html: '<div class="dialog"><div data-comp="contentWrapper"></div><div data-comp="buttonBar"></div></div>',
+        html: '<div class="dialog"><span class="dialog__title" data-prop="$title"></span>' +
+        '<div data-comp="contentWrapper"></div>' +
+        '<div data-comp="buttonBar"></div>' +
+        '<div class="dialog__close" data-prop="$close">x</div>' +
+        '</div>',
         
         dialog: null,
+
+        $title: null,
+
+        $close: null,
         
         contentWrapper: {
             component: Protoplast.Component.extend({html: '<div class="dialog__content_wrapper"></div>'})
@@ -25,9 +33,14 @@ define(function(require) {
         },
         
         init: function() {
+            this.$close.onclick = this.dispatch.bind(this, 'closeClicked');
             Protoplast.utils.bind(this, 'dialog', this._updateDialog);
         },
-        
+
+        destroy: function() {
+            this.$close.onclick = null;
+        },
+
         _updateDialog: function(dialog) {
             if (!dialog) {
                 this.contentWrapper.removeAll();
@@ -45,6 +58,7 @@ define(function(require) {
             }
             else {
                 this.root.style.display = 'block';
+                this.$title.innerText = this.dialog.title;
                 this.contentWrapper.add(dialog.content);
                 this.currentContent = dialog.content;
                 this.buttonBar.buttons = dialog.buttons;
