@@ -3,50 +3,46 @@ define(function(require) {
     var Protoplast = require('protoplast');
     
     var ChangelogModel = Protoplast.Model.extend({
-    
-        /**
-         * @type {Protoplast.Collection}
-         */
-        changes: null,
+
+        allChanges: null,
         
-        changesSinceLastVisit: null,
-        
-        lastVisit: null,
+        newChanges: null,
         
         $create: function() {
-            this.changes = Protoplast.Collection.create();
-            this._createChangesSinceLastVisitCollectionView();
+            this.allChanges = Protoplast.Collection.create();
         },
         
-        addEntries: function(changes) {
-            this.changes.addAll(changes);
+        createAllChangesCollection: function(entries) {
+            var collection = Protoplast.Collection.create(entries);
+            this.allChanges = Protoplast.CollectionView.create(collection);
+    
+            // Sort by date (last first)
+            this.allChanges.addSort({
+                fn: function(a, b) {
+                    return b.date.getTime() - a.date.getTime();
+                }.bind(this)
+            });
         },
-
-        _createChangesSinceLastVisitCollectionView: function() {
-            var view = Protoplast.CollectionView.create(this.changes);
-
-            // Sort by date
+    
+        createNewChangesCollection: function(lastDisplayedEntryDate) {
+            var view = Protoplast.CollectionView.create(this.allChanges);
+    
+            // Sort by date (last last)
             view.addSort({
                 fn: function(a, b) {
                     return a.date.getTime() - b.date.getTime();
                 }.bind(this)
             });
-
+    
             // Filter out items created before last visit
             view.addFilter({
                 fn: function(entry) {
-                    return this.lastVisit && entry.date.getTime() >= this.lastVisit.getTime();
+                    return entry.date.getTime() > lastDisplayedEntryDate.getTime();
                 }.bind(this)
             });
-
-            // Invalidate filter when last visit is set
-            Protoplast.utils.bind(this, 'lastVisit', function() {
-                view.refresh();
-            }.bind(this));
-
-            this.changesSinceLastVisit = view;
+            
+            this.newChanges = view;
         }
-        
     });
     
     return ChangelogModel;

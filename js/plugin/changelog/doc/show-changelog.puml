@@ -1,0 +1,41 @@
+@startuml
+participant InitChangelogController as ICC
+participant ChangelogDataProvider as CDP
+participant ChangelogParser as CP
+participant Storage as S
+participant ChangelogModel as CM
+participant ChangelogList as CL
+participant ThemeController as TC
+
+[-> ICC : app/init
+
+ICC -> CDP : getJsonEntries()
+ICC <-- CDP : json
+ICC -> CP : parse(json)
+ICC <-- CP : entries:Array
+
+ICC -> CM : createAllChangesCollection(entries)
+
+ICC -> S : getItem('last-changelog-entry-date') as Date
+ICC <-- S : lastDisplayedEntryDate:Date
+
+alt if lastDisplayedEntryDate
+    note over ICC: to avoid showing all items on first visit
+    ICC -> CM : createNewChangesCollection(lastDisplayedEntryDate)
+    ICC <-- CM : newChanges:Collection
+    alt if newChanges.length
+        ICC -> CL : create()
+        ICC <-- CL : changelogList
+        ICC -> CL : items = newChanges
+        ICC -> TC : showDialog(changelogList)
+    end
+end
+
+alt if allChanges.length
+    note over ICC: to prevent displaying same entries twice\nand save "last displayed" on first visit
+    ICC -> CM : allChanges.last()
+    ICC <-- CM : latestChange
+    ICC -> S : setItem('last-changelog-entry-date', latestChange.date)
+end
+
+@enduml

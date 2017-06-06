@@ -2,8 +2,10 @@ define(function(require) {
 
     var Protoplast = require('protoplast'),
         ChangelogDataProvider = require('plugin/changelog/util/changelog-data-provider'),
+        ChangelogList = require('plugin/changelog/view/changelog-list'),
         ChangelogParser = require('plugin/changelog/util/changelog-parser'),
-        ChangelogModel = require('plugin/changelog/model/changelog-model');
+        ChangelogModel = require('plugin/changelog/model/changelog-model'),
+        ThemeController = require('theme/aw-bubble/controller/theme-controller');
 
     var InitChangelogController = Protoplast.Object.extend({
 
@@ -23,46 +25,44 @@ define(function(require) {
             inject: ChangelogParser
         },
 
+        themeController: {
+            inject: ThemeController
+        },
+
         load: {
             sub: 'app/init',
             value: function() {
-                this._loadEntries();
-                this._updateLastVisit();
+                var jsonEntries = this.changelogDataProvider.getJsonEntries();
+                var entriesArray = this.changelogParser.parse(jsonEntries);
+                this.changelogModel.createAllChangesCollection(entriesArray);
+
+                var lastDisplayedEntry = this.storage.getItem('last-changelog-entry-date'),
+                    lastDisplayedEntryDate;
+
+                if (lastDisplayedEntry) {
+                    lastDisplayedEntryDate = new Date();
+                    lastDisplayedEntryDate.setTime(parseInt(lastDisplayedEntry, 10));
+
+                    this.changelogModel.createNewChangesCollection(lastDisplayedEntryDate);
+                    if (this.changelogModel.newChanges.length) {
+                        var changelogList = ChangelogList.create();
+                        changelogList.items = this.changelogModel.newChanges;
+
+                        this.themeController.showDialog("Check out new stuff:", changelogList, [
+                            {label: 'OK, show me the goodies!', value: true}
+                        ], function() {
+                            this.themeController.closeDialog();
+                        }.bind(this));
+                    }
+                }
+
+                if (this.changelogModel.allChanges.length) {
+                    var lastEntry = this.changelogModel.allChanges.get(0);
+                    this.storage.setItem('last-changelog-entry-date', lastEntry.date.getTime());
+                }
+
             }
-        },
-
-        /**
-         * Return last visit date or null if it's the first visit
-         * @returns {Date}
-         */
-        getLastVisitDate: function() {
-            var lastVisitTimestamp = this.storage.getItem('last-visit'),
-                lastVisitDate = null;
-
-            if (lastVisitTimestamp) {
-                lastVisitDate = new Date();
-                lastVisitDate.setTime(parseInt(lastVisitTimestamp, 10));
-            }
-
-            return lastVisitDate;
-        },
-        
-        _loadEntries: function() {
-            var jsonEntries = this.changelogDataProvider.getJsonEntries();
-            var entriesArray = this.changelogParser.parse(jsonEntries);
-            this.changelogModel.changes.addAll(entriesArray);
-        },
-
-        /**
-         * Update last visit date
-         * @private
-         */
-        _updateLastVisit: function() {
-            var lastVisitDate = new Date();
-            this.storage.setItem('last-visit', lastVisitDate.getTime());
-            this.changelogModel.lastVisit = lastVisitDate;
         }
-
     });
 
     return InitChangelogController;
